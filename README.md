@@ -10,27 +10,32 @@ This tool can be used in conjunction with a MySQL database to load data from spe
 
     `git clone https://github.com/ibsenc/migration_tool.git`
 
-### Generate the MySQL table(s) you would like to migrate data to:
+### Generate your MySQL tables:
 
-- Include a query creating and using the schema: `Gr8BnBApplication`
-- Write DROP TABLE IF EXISTS statements to drop tables you are using, in a way that respects referential integrity (child first, then parent).
-- Write CREATE TABLE statements to create table(s) you are assigned to, in a way that respects referential integrity (parent first, then child).
-  - Include all atttributes shown in the team's [UML](https://app.diagrams.net/#G1s17or0YGwgyqoSGFZvlyd2DtB4UtBDTB). You can ignore any fields labelled optional or "Opt".
+- Edit the file [create_tables.sql](sql_files/create_tables.sql) and add the following to what currently exists:
+
+  - Make sure to include the query for creating and using the schema: `Gr8BnBApplication`
+  - Write DROP TABLE IF EXISTS statements to drop tables you are using, in a way that respects referential integrity (child first, then parent).
+  - Write CREATE TABLE statements to create table(s) you are assigned to, in a way that respects referential integrity (parent first, then child).
+  - Include all attributes shown in the team's [UML](https://app.diagrams.net/#G1s17or0YGwgyqoSGFZvlyd2DtB4UtBDTB). You can ignore any fields labelled optional or "Opt".
   - Include all PK and FK constraints.
-- Example:
+  - Example:
 
   ![CREATE TABLE example screenshot](example_screenshots/example_sql_create_tables.png)
 
-### Create a separate file for SELECT \* FROM table statements to verify that the script is working.
+### Add your SELECT \* FROM table statements
 
-- Include a query using the schema: `Gr8BnBApplication`
-- Example:
+- Edit the file [select_tables.sql](sql_files/select_tables.sql) to include the following:
+
+  - Make sure to include the query: `USE Gr8BnBApplication`
+  - Write any SELECT \* FROM TABLE statements that will help you to verify that the script is working correctly.
+  - Example:
 
   ![SELECT * FROM TABLE example screenshot](example_screenshots/example_sql_select_tables.png)
 
 ### Fill out the [migration_config.py](migration_config.py) file.
 
-- Create a branch with your work so you do not push your work to main:
+- Create a branch with your work so you do not push your work directly to main:
 
   `git checkout -b [your_name]`
 
