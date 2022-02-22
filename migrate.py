@@ -1,5 +1,10 @@
 import csv
 
+"""
+You should not need to edit this file unless you are modifying the row counter
+break comment at the bottom (to prevent processing of all rows).
+"""
+
 import mysql.connector
 
 from custom_functions import craft_value
@@ -27,7 +32,7 @@ def get_string_tokens(mapping):
     return ", ".join(tokens)
 
 
-def insert_into_database(mappings, values, cursor):
+def insert_into_db(mappings, values, cursor):
     table_column_names = get_string_of_table_col_names(mappings)
     table_column_value_tokens = get_string_tokens(mappings)
     query = f"INSERT INTO {table_name} ({table_column_names}) VALUES " \
@@ -75,7 +80,7 @@ def insert_new_entry(row, table_name, cursor):
             else:
                 return
 
-    insert_into_database(table_mappings, table_column_to_csv_value.values(), cursor)
+    insert_into_db(table_mappings, table_column_to_csv_value.values(), cursor)
 
 
 mydb = get_mysql_db()
@@ -97,7 +102,10 @@ for table_name in MIGRATION_CONFIG.keys():
             else:
                 insert_new_entry(row, table_name, mycursor)
             row_counter += 1
-            # if row_counter >= 50:
+
+            # You can un-comment this to load a smaller portion of the rows
+            # if row_counter >= 5:
             #     break
 
+# This commits all queries to the db, making changes in the DB you set up
 mydb.commit()
