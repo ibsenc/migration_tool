@@ -8,7 +8,7 @@ This tool can be used in conjunction with a MySQL database to load data from spe
 
 ### Clone the repository in a directory of your choosing, using:
 
-    `git clone https://github.com/ibsenc/migration_tool.git`
+`git clone https://github.com/ibsenc/migration_tool.git`
 
 ### Generate the MySQL table(s) you would like to migrate data to:
 
@@ -74,14 +74,12 @@ This tool can be used in conjunction with a MySQL database to load data from spe
 - MySQL Connector Error
 
   - If you get this error:
-    `import mysql.connector ModuleNotFoundError: No module named 'mysql'`
+    `import mysql.connector ModuleNotFoundError: No module named 'mysql'`,
 
-        Run command:
-
-        `pip install mysql-connector-python-rf`
+    Run command: `pip install mysql-connector-python-rf`
 
 - utf8mb4 Error
 
-  - If any of the columns you are trying to migrate contain (or possibly contain) emojis, you may get an error. Add the following statement to the bottom of your SQL (edit the TABLE_NAME placeholder):
+  - If any of the columns you are trying to migrate contain (or possibly contain) emojis, you may get an error. Add the following statement to the bottom of your CREAT TABLE sql file (edit the TABLE_NAME placeholder):
 
     `ALTER TABLE {TABLE_NAME} CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;`
