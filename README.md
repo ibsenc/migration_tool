@@ -31,7 +31,9 @@ This tool can be used in conjunction with a MySQL database to load data from spe
 ### Fill out the [migration_config.py](migration_config.py) file.
 
 - Create a branch with your work so you do not push your work to main:
+
   `git checkout -b [your_name]`
+
 - Edit all sections of the file:
 
   - CSV_FILE_PATH
@@ -52,26 +54,34 @@ This tool can be used in conjunction with a MySQL database to load data from spe
 
 ### Creating your own custom data - May be required depending on your table (not required if dealing with csv data only)
 
-- This step can be used to create custom data for attributes that we want to include but has no associated csv data (like a user's "username" or "password").
+- Purpose: This step can be used to create custom data for attributes that we want to include but has no associated csv data (like a user's "username" or "password").
   - Please ask the team if you are not sure whether your table has any attributes that this may apply to.
   - If all of your table attributes match to a column in the csv, it is likely that you won't need to do this.
-- Modify the `custom_functions` file and create a custom function using the guidelines in the document. As the team if you need additional help.
+- Modify the [custom_functions.py](custom_functions.py) file and create a custom function using the guidelines in the document. As the team if you need additional help.
 
 ## Running the script (to be done EACH time)
 
 - Run your CREATE TABLE sql file in the MySQL workbench
 - In the terminal, `cd` into the `migration_tool` directory
 - Run the following command (if you get any errors, take a look at the troubleshooting section below):
+
   `python3 migrate.py`
+
 - Run your SELECT \* FROM TABLE sql file in the MySQL workbench to verify that the data has been populated as expected
 
 ## Troubleshooting
 
-If you get this error:
-`import mysql.connector ModuleNotFoundError: No module named 'mysql'`
+- MySQL Connector Error
 
-Run command:
-`pip install mysql-connector-python-rf`
+  - If you get this error:
+    `import mysql.connector ModuleNotFoundError: No module named 'mysql'`
 
-If any of the columns you are trying to migrate contain (or possibly contain) emojis, you may get an error. Add the following statement to the bottom of your SQL (edit the TABLE_NAME placeholder):
-`ALTER TABLE {TABLE_NAME} CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;`
+        Run command:
+
+        `pip install mysql-connector-python-rf`
+
+- utf8mb4 Error
+
+  - If any of the columns you are trying to migrate contain (or possibly contain) emojis, you may get an error. Add the following statement to the bottom of your SQL (edit the TABLE_NAME placeholder):
+
+    `ALTER TABLE {TABLE_NAME} CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;`
