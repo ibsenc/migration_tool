@@ -4,18 +4,17 @@ CREATE SCHEMA IF NOT EXISTS Gr8BnBApplication;
 USE Gr8BnBApplication;
 
 # Drop tables, respecting referential integrity (child first, then parent)
-DROP TABLE IF EXISTS PropertyType;
-DROP TABLE IF EXISTS RoomType;
 DROP TABLE IF EXISTS Calendar;
-DROP TABLE IF EXISTS Neighborhood;
+DROP TABLE IF EXISTS Amenity;
+DROP TABLE IF EXISTS ListingAmenity;
+DROP TABLE IF EXISTS ListingRating;
+DROP TABLE IF EXISTS HostRating;
 DROP TABLE IF EXISTS Review;
-DROP TABLE IF EXISTS ListingBookmark;
-DROP TABLE IF EXISTS Connection;
 DROP TABLE IF EXISTS Guest;
 DROP TABLE IF EXISTS Host;
 DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Listing;
-
+DROP TABLE IF EXISTS Neighbourhood;
 
 # Create Table User
 CREATE TABLE User (
