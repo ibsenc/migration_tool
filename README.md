@@ -12,12 +12,12 @@ This tool can be used in conjunction with a MySQL database to load data from spe
 
 ### Generate your MySQL tables:
 
-- Edit the file [create_tables.sql](sql_files/create_tables.sql) and add the following to what currently exists:
+- Edit the file [create_tables.sql](sql_files/create_tables.sql) and add the following:
 
   - Make sure to include the query for creating and using the schema: `Gr8BnBApplication`
   - Write DROP TABLE IF EXISTS statements to drop tables you are using, in a way that respects referential integrity (child first, then parent).
   - Write CREATE TABLE statements to create table(s) you are assigned to, in a way that respects referential integrity (parent first, then child).
-  - Include all attributes shown in the team's [UML](https://app.diagrams.net/#G1s17or0YGwgyqoSGFZvlyd2DtB4UtBDTB). You can ignore any fields labelled optional or "Opt".
+  - Include all attributes shown in the team's [UML](https://drive.google.com/file/d/1s17or0YGwgyqoSGFZvlyd2DtB4UtBDTB/view?usp=sharing). You can ignore any fields labelled optional or "Opt".
   - Include all PK and FK constraints.
   - Example:
 
