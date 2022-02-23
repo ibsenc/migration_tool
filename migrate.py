@@ -92,8 +92,15 @@ mydb = get_mysql_db()
 mycursor = mydb.cursor()
 
 for csv_config in MIGRATION_CONFIG:
+
+    resource_path = csv_config["resource_path"]
+    print(f"Processing resource: '{resource_path}'")
+
     for table in csv_config["tables"]:
-        with open(csv_config["resource_path"], newline='') as csvfile:
+
+        print(f"  Table: '{table['name']}'")
+
+        with open(resource_path, newline='') as csvfile:
             csvreader = csv.reader(csvfile, delimiter=',')
             row_counter = 0
             csv_col_to_index = None
@@ -112,4 +119,6 @@ for csv_config in MIGRATION_CONFIG:
                 #     break
 
 # This commits all queries to the db, making changes in the DB you set up
+print(f"Committing collected queries to database '{MYSQL_CONFIG['database']}.'")
 mydb.commit()
+print("Migration complete.")
