@@ -11,14 +11,6 @@ least dependent (on top) to most dependent (on bottom).
 """
 MIGRATION_CONFIG = {
     # Table name (case sensitive)
-    "User": {
-        # Table column name to CSV column name (case sensitive)
-        "ID": "host_id",
-        "Name": "host_name",
-        "UserName": "{{GENERATE_USERNAME}}",
-        "Password": "{{GENERATE_PASSWORD}}"
-    },
-    # Table name (case sensitive)
     "Host": {
         # Table column name to CSV column name (case sensitive)
         "ID": "host_id",
@@ -33,11 +25,6 @@ MIGRATION_CONFIG = {
 
 UNIQUE_FIELDS = {
     # Table name (case sensitive)
-    "User": {
-        # Unique table column name (case sensitive)
-        "ID": set()
-    },
-    # Table name (case sensitive)
     "Host": {
         # Unique table column name (case sensitive)
         "ID": set()
@@ -47,6 +34,6 @@ UNIQUE_FIELDS = {
 MYSQL_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "password",
+    "password": "123",
     "database": "Gr8BnBApplication"
 }
