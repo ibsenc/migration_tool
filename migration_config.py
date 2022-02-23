@@ -1,5 +1,3 @@
-CSV_FILE_PATH = "resources/listings_no_comma.csv"
-
 """
 ❗️ NOTICE❗️
 
@@ -9,40 +7,69 @@ CSV file.
 MIGRATION_CONFIG should include tables in order of
 least dependent (on top) to most dependent (on bottom).
 """
-MIGRATION_CONFIG = {
-    # Table name (case sensitive)
-    "User": {
-        # Table column name to CSV column name (case sensitive)
-        "ID": "host_id",
-        "Name": "host_name",
-        "UserName": "{{GENERATE_USERNAME}}",
-        "Password": "{{GENERATE_PASSWORD}}"
-    },
-    # Table name (case sensitive)
-    "Host": {
-        # Table column name to CSV column name (case sensitive)
-        "ID": "host_id",
-        "HostUrl": "host_url",
-        "HostSince": "host_since",
-        "HostLocation": "host_location",
-        "HostAbout": "host_about",
-        "HostListingsCount": "host_listings_count",
-        "HostTotalListingsCount": "host_total_listings_count"
+MIGRATION_CONFIG = [
+    {
+        "resource_path": "resources/listings_no_comma.csv",
+        "tables": [
+            {
+                "name": "User",
+                "mappings": [
+                    {
+                        "table_column": "ID",
+                        "csv_column": "host_id",
+                        "unique_set": set()
+                    },
+                    {
+                        "table_column": "Name",
+                        "csv_column": "host_name"
+                    },
+                    {
+                        "table_column": "UserName",
+                        "csv_column": "{{GENERATE_USERNAME}}"
+                    },
+                    {
+                        "table_column": "Password",
+                        "csv_column": "{{GENERATE_PASSWORD}}"
+                    }
+                ]
+            },
+            {
+                "name": "Host",
+                "mappings": [
+                    {
+                        "table_column": "ID",
+                        "csv_column": "host_id",
+                        "unique_set": set()
+                    },
+                    {
+                        "table_column": "HostUrl",
+                        "csv_column": "host_url"
+                    },
+                    {
+                        "table_column": "HostSince",
+                        "csv_column": "host_since"
+                    },
+                    {
+                        "table_column": "HostLocation",
+                        "csv_column": "host_location"
+                    },
+                    {
+                        "table_column": "HostAbout",
+                        "csv_column": "host_about"
+                    },
+                    {
+                        "table_column": "HostListingsCount",
+                        "csv_column": "host_listings_count"
+                    },
+                    {
+                        "table_column": "HostTotalListingsCount",
+                        "csv_column": "host_total_listings_count"
+                    },
+                ]
+            }
+        ]
     }
-}
-
-UNIQUE_FIELDS = {
-    # Table name (case sensitive)
-    "User": {
-        # Unique table column name (case sensitive)
-        "ID": set()
-    },
-    # Table name (case sensitive)
-    "Host": {
-        # Unique table column name (case sensitive)
-        "ID": set()
-    }
-}
+]
 
 MYSQL_CONFIG = {
     "host": "localhost",
