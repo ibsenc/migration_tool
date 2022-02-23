@@ -53,7 +53,7 @@ CREATE TABLE Guest (
 # Create Table Review
 # TODO: Integrate foreign key reference with Listing table
 CREATE TABLE Review (
-    ID INT UNSIGNED AUTO_INCREMENT,
+    ID BIGINT UNSIGNED,
     Date DATE,
     ReviewerID INT UNSIGNED,
     Comments TEXT,
