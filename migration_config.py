@@ -1,5 +1,3 @@
-CSV_FILE_PATH = "resources/listings_no_comma.csv"
-
 """
 ❗️ NOTICE❗️
 
@@ -9,27 +7,127 @@ CSV file.
 MIGRATION_CONFIG should include tables in order of
 least dependent (on top) to most dependent (on bottom).
 """
-MIGRATION_CONFIG = {
-    # Table name (case sensitive)
-    "User": {
-        # Table column name to CSV column name (case sensitive)
-        "ID": "host_id",
-        "Name": "host_name",
-        "UserName": "{{GENERATE_USERNAME}}",
-        "Password": "{{GENERATE_PASSWORD}}"
+MIGRATION_CONFIG = [
+    {
+        "resource_path": "resources/listings_no_comma.csv",
+        "tables": [
+            {
+                "name": "User",
+                "mappings": [
+                    {
+                        "table_column": "ID",
+                        "csv_column": "host_id"
+                    },
+                    {
+                        "table_column": "Name",
+                        "csv_column": "host_name"
+                    },
+                    {
+                        "table_column": "UserName",
+                        "csv_column": "{{GENERATE_USERNAME}}"
+                    },
+                    {
+                        "table_column": "Password",
+                        "csv_column": "{{GENERATE_PASSWORD}}"
+                    }
+                ]
+            },
+            {
+                "name": "Host",
+                "mappings": [
+                    {
+                        "table_column": "ID",
+                        "csv_column": "host_id"
+                    },
+                    {
+                        "table_column": "HostUrl",
+                        "csv_column": "host_url"
+                    },
+                    {
+                        "table_column": "HostSince",
+                        "csv_column": "host_since"
+                    },
+                    {
+                        "table_column": "HostLocation",
+                        "csv_column": "host_location"
+                    },
+                    {
+                        "table_column": "HostAbout",
+                        "csv_column": "host_about"
+                    },
+                    {
+                        "table_column": "HostListingsCount",
+                        "csv_column": "host_listings_count"
+                    },
+                    {
+                        "table_column": "HostTotalListingsCount",
+                        "csv_column": "host_total_listings_count"
+                    },
+                ]
+            }
+        ]
     },
-    # Table name (case sensitive)
-    "Host": {
-        # Table column name to CSV column name (case sensitive)
-        "ID": "host_id",
-        "HostUrl": "host_url",
-        "HostSince": "host_since",
-        "HostLocation": "host_location",
-        "HostAbout": "host_about",
-        "HostListingsCount": "host_listings_count",
-        "HostTotalListingsCount": "host_total_listings_count"
+    {
+        "resource_path": "resources/reviews_no_comma.csv",
+        "tables": [
+            {
+                "name": "User",
+                "mappings": [
+                    {
+                        "table_column": "ID",
+                        "csv_column": "reviewer_id"
+                    },
+                    {
+                        "table_column": "Name",
+                        "csv_column": "reviewer_name"
+                    },
+                    {
+                        "table_column": "UserName",
+                        "csv_column": "{{GENERATE_USERNAME}}"
+                    },
+                    {
+                        "table_column": "Password",
+                        "csv_column": "{{GENERATE_PASSWORD}}"
+                    }
+                ]
+            },
+            {
+                "name": "Guest",
+                "mappings": [
+                    {
+                        "table_column": "ID",
+                        "csv_column": "reviewer_id"
+                    }
+                ]
+            },
+            {
+                "name": "Review",
+                "mappings": [
+                    {
+                        "table_column": "ID",
+                        "csv_column": "id"
+                    },
+                    {
+                        "table_column": "Date",
+                        "csv_column": "date"
+                    },
+                    {
+                        "table_column": "ReviewerID",
+                        "csv_column": "reviewer_id"
+                    },
+                    {
+                        "table_column": "Comments",
+                        "csv_column": "comments"
+                    },
+                    # {
+                    #     "table_column": "ListingID",
+                    #     "csv_column": "listing_id"
+                    # }
+                ]
+            }
+        ]
     }
-}
+]
 
 UNIQUE_FIELDS = {
     # Table name (case sensitive)
@@ -37,9 +135,13 @@ UNIQUE_FIELDS = {
         # Unique table column name (case sensitive)
         "ID": set()
     },
-    # Table name (case sensitive)
     "Host": {
-        # Unique table column name (case sensitive)
+        "ID": set()
+    },
+    "Guest": {
+        "ID": set()
+    },
+    "Review": {
         "ID": set()
     }
 }

@@ -8,8 +8,7 @@ break comment at the bottom (to prevent processing of all rows).
 import mysql.connector
 
 from custom_functions import craft_value
-from migration_config import (CSV_FILE_PATH, MIGRATION_CONFIG, MYSQL_CONFIG,
-                              UNIQUE_FIELDS)
+from migration_config import (MIGRATION_CONFIG, MYSQL_CONFIG, UNIQUE_FIELDS)
 
 
 def get_mysql_db():
@@ -21,8 +20,11 @@ def get_mysql_db():
     )
 
 
-def get_string_of_table_col_names(mapping):
-    return ", ".join(mapping.keys())
+def get_string_of_table_col_names(table_mappings):
+    table_columns = []
+    for table_mapping in table_mappings:
+        table_columns.append(table_mapping["table_column"])
+    return ", ".join(table_columns)
 
 
 def get_string_tokens(mapping):
@@ -32,9 +34,9 @@ def get_string_tokens(mapping):
     return ", ".join(tokens)
 
 
-def insert_into_db(mappings, values, cursor):
-    table_column_names = get_string_of_table_col_names(mappings)
-    table_column_value_tokens = get_string_tokens(mappings)
+def insert_into_db(table_name, table_mappings, values, cursor):
+    table_column_names = get_string_of_table_col_names(table_mappings)
+    table_column_value_tokens = get_string_tokens(table_mappings)
     query = f"INSERT INTO {table_name} ({table_column_names}) VALUES " \
             f"({table_column_value_tokens})"
 
@@ -46,31 +48,33 @@ def replace_comma_tokens(value):
 
 
 def insert_new_entry(row, table_name, cursor):
-    table_mappings = MIGRATION_CONFIG[table_name]
+    table_name = table["name"]
+    table_mappings = table["mappings"]
 
     table_column_to_csv_value = {}
-    for table_column_name in table_mappings:
+    for table_mapping in table_mappings:
 
         # From the table field we want to get, find the associated CSV value
 
+        table_column = table_mapping["table_column"]
         # "HostUrl" -> "host_url"
-        csv_column_name = table_mappings[table_column_name]
+        csv_column = table_mapping["csv_column"]
 
-        if csv_column_name in csv_col_to_index.keys():
+        if csv_column in csv_col_to_index.keys():
             # "host_url" -> 9
-            row_index = csv_col_to_index[csv_column_name]
+            row_index = csv_col_to_index[csv_column]
             # 9 -> {VALUE_IN_CSV}
             csv_value = replace_comma_tokens(str(row[row_index]))
             # map["HostUrl"] = {VALUE_IN_CSV}
-            table_column_to_csv_value[table_column_name] = csv_value
+            table_column_to_csv_value[table_column] = csv_value
         else:
-            custom_token = csv_column_name
-            table_column_to_csv_value[table_column_name] = \
+            custom_token = csv_column
+            table_column_to_csv_value[table_column] = \
                 craft_value(custom_token, table_column_to_csv_value)
 
-        if table_column_name in UNIQUE_FIELDS[table_name].keys():
-            set_of_unique_values = UNIQUE_FIELDS[table_name][table_column_name]
-            current_value = table_column_to_csv_value[table_column_name]
+        if table_column in UNIQUE_FIELDS[table_name].keys():
+            set_of_unique_values = UNIQUE_FIELDS[table_name][table_column]
+            current_value = table_column_to_csv_value[table_column]
 
             # Ensuring no duplicates exist for a unique field
             if current_value not in set_of_unique_values:
@@ -80,32 +84,32 @@ def insert_new_entry(row, table_name, cursor):
             else:
                 return
 
-    insert_into_db(table_mappings, table_column_to_csv_value.values(), cursor)
+    insert_into_db(
+        table_name, table_mappings, table_column_to_csv_value.values(), cursor)
 
 
 mydb = get_mysql_db()
 mycursor = mydb.cursor()
 
-# Loop through tables
-for table_name in MIGRATION_CONFIG.keys():
-    with open(CSV_FILE_PATH, newline='') as csvfile:
-        csvreader = csv.reader(csvfile, delimiter=',')
-        row_counter = 0
-        csv_col_to_index = None
-        for row in csvreader:
+for csv_config in MIGRATION_CONFIG:
+    for table in csv_config["tables"]:
+        with open(csv_config["resource_path"], newline='') as csvfile:
+            csvreader = csv.reader(csvfile, delimiter=',')
+            row_counter = 0
+            csv_col_to_index = None
+            for row in csvreader:
+                if row_counter == 0:
+                    # Create and populate csv col -> row index map
+                    csv_col_to_index = {}
+                    for i in range(len(row)):
+                        csv_col_to_index[row[i]] = i
+                else:
+                    insert_new_entry(row, table, mycursor)
+                row_counter += 1
 
-            if row_counter == 0:
-                # Create and populate csv col -> row index map
-                csv_col_to_index = {}
-                for i in range(len(row)):
-                    csv_col_to_index[row[i]] = i
-            else:
-                insert_new_entry(row, table_name, mycursor)
-            row_counter += 1
-
-            # You can un-comment this to load a smaller portion of the rows
-            # if row_counter >= 5:
-            #     break
+                # You can un-comment this to load a smaller portion of the rows
+                # if row_counter >= 5:
+                #     break
 
 # This commits all queries to the db, making changes in the DB you set up
 mydb.commit()

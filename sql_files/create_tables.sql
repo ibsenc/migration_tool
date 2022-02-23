@@ -5,8 +5,8 @@ USE Gr8BnBApplication;
 
 # Drop tables, respecting referential integrity (child first, then parent)
 DROP TABLE IF EXISTS Calendar;
-DROP TABLE IF EXISTS Amenity;
 DROP TABLE IF EXISTS ListingAmenity;
+DROP TABLE IF EXISTS Amenity;
 DROP TABLE IF EXISTS ListingRating;
 DROP TABLE IF EXISTS HostRating;
 DROP TABLE IF EXISTS Review;
@@ -15,6 +15,8 @@ DROP TABLE IF EXISTS Listing;
 DROP TABLE IF EXISTS Host;
 DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Neighbourhood;
+
+# Create Table Neighbourhood
 
 # Create Table User
 CREATE TABLE User (
@@ -41,5 +43,36 @@ CREATE TABLE Host (
 		ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+# Create Table Listing
+
+# Create Table Guest
+CREATE TABLE Guest (
+    ID INT UNSIGNED,
+    CONSTRAINT pk_Guest_ID PRIMARY KEY (ID),
+    CONSTRAINT fk_Guest_ID FOREIGN KEY (ID)
+        REFERENCES User (ID)
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+# Create Table Review
+# TODO: Integrate foreign key reference with Listing table
+CREATE TABLE Review (
+    ID BIGINT UNSIGNED,
+    Date DATE,
+    ReviewerID INT UNSIGNED,
+    Comments TEXT,
+    -- ListingID INT UNSIGNED,
+    CONSTRAINT pk_Review_ID PRIMARY KEY (ID),
+    CONSTRAINT fk_Review_ReviewerID FOREIGN KEY (ReviewerID)
+        REFERENCES Guest (ID)
+        ON UPDATE CASCADE ON DELETE SET NULL/*,
+    CONSTRAINT fk_Review_ListingID FOREIGN KEY (ListingID)
+        REFERENCES Listing (ID)
+        ON UPDATE CASCADE ON DELETE CASCADE */
+);
+
+
 ALTER TABLE User CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE Host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER TABLE Guest CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER TABLE Review CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
