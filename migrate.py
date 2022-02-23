@@ -8,8 +8,7 @@ break comment at the bottom (to prevent processing of all rows).
 import mysql.connector
 
 from custom_functions import craft_value
-from migration_config import (CSV_FILE_PATH, MIGRATION_CONFIG, MYSQL_CONFIG,
-                              UNIQUE_FIELDS)
+from migration_config import (CSV_FILE_PATH, MIGRATION_CONFIG, MYSQL_CONFIG)
 
 
 def get_mysql_db():
@@ -35,7 +34,7 @@ def get_string_tokens(mapping):
 def insert_into_db(mappings, values, cursor):
     table_column_names = get_string_of_table_col_names(mappings)
     table_column_value_tokens = get_string_tokens(mappings)
-    query = f"INSERT INTO {table_name} ({table_column_names}) VALUES " \
+    query = f"INSERT IGNORE INTO {table_name} ({table_column_names}) VALUES " \
             f"({table_column_value_tokens})"
 
     cursor.execute(query, tuple(values))
@@ -67,18 +66,6 @@ def insert_new_entry(row, table_name, cursor):
             custom_token = csv_column_name
             table_column_to_csv_value[table_column_name] = \
                 craft_value(custom_token, table_column_to_csv_value)
-
-        if table_column_name in UNIQUE_FIELDS[table_name].keys():
-            set_of_unique_values = UNIQUE_FIELDS[table_name][table_column_name]
-            current_value = table_column_to_csv_value[table_column_name]
-
-            # Ensuring no duplicates exist for a unique field
-            if current_value not in set_of_unique_values:
-                set_of_unique_values.add(current_value)
-
-            # Found duplicate of unique field, skipping row
-            else:
-                return
 
     insert_into_db(table_mappings, table_column_to_csv_value.values(), cursor)
 
