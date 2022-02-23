@@ -8,7 +8,7 @@ break comment at the bottom (to prevent processing of all rows).
 import mysql.connector
 
 from custom_functions import craft_value
-from migration_config import (MIGRATION_CONFIG, MYSQL_CONFIG)
+from migration_config import (MIGRATION_CONFIG, MYSQL_CONFIG, UNIQUE_FIELDS)
 
 
 def get_mysql_db():
@@ -72,13 +72,13 @@ def insert_new_entry(row, table_name, cursor):
             table_column_to_csv_value[table_column] = \
                 craft_value(custom_token, table_column_to_csv_value)
 
-        if "unique_set" in table_mapping.keys():
-            unique_set = table_mapping["unique_set"]
+        if table_column in UNIQUE_FIELDS[table_name].keys():
+            set_of_unique_values = UNIQUE_FIELDS[table_name][table_column]
             current_value = table_column_to_csv_value[table_column]
 
             # Ensuring no duplicates exist for a unique field
-            if current_value not in unique_set:
-                unique_set.add(current_value)
+            if current_value not in set_of_unique_values:
+                set_of_unique_values.add(current_value)
 
             # Found duplicate of unique field, skipping row
             else:

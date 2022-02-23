@@ -14,11 +14,10 @@ This tool can be used in conjunction with a MySQL database to load data from spe
 
 - Edit the file [create_tables.sql](sql_files/create_tables.sql) and add the following:
 
-  - Make sure to include the query for creating and using the schema: `Gr8BnBApplication`
-  - Write DROP TABLE IF EXISTS statements to drop tables you are using, in a way that respects referential integrity (child first, then parent).
-  - Write CREATE TABLE statements to create table(s) you are assigned to, in a way that respects referential integrity (parent first, then child).
-  - Include all attributes shown in the team's [UML](https://drive.google.com/file/d/1s17or0YGwgyqoSGFZvlyd2DtB4UtBDTB/view?usp=sharing). You can ignore any fields labelled optional or "Opt".
-  - Include all PK and FK constraints.
+  - Verify that the DROP TABLE IF EXISTS statements include your table(s). If not present, add it in a way that respects referential integrity (child first, then parent).
+  - Add CREATE TABLE statements for the table(s) you are assigned to, in a way that respects referential integrity (parent first, then child). NOTE: Should be the opposite of the DROP TABLE ordering.
+    - Include all attributes shown in the team's [UML](https://drive.google.com/file/d/1s17or0YGwgyqoSGFZvlyd2DtB4UtBDTB/view?usp=sharing). You can ignore any fields labelled optional or "Opt".
+    - Include all PK and FK constraints. (Write, but comment out, any FK attributes or constraints for tables that do not yet exist).
   - Example:
 
   ![CREATE TABLE example screenshot](example_screenshots/example_sql_create_tables.png)
@@ -27,13 +26,12 @@ This tool can be used in conjunction with a MySQL database to load data from spe
 
 - Edit the file [select_tables.sql](sql_files/select_tables.sql) to include the following:
 
-  - Make sure to include the query: `USE Gr8BnBApplication`
-  - Write any SELECT \* FROM TABLE statements that will help you to verify that the script is working correctly.
+  - Write any SELECT \* FROM TABLE statements that will help you to verify that the script is working correctly for your table(s).
   - Example:
 
   ![SELECT * FROM TABLE example screenshot](example_screenshots/example_sql_select_tables.png)
 
-### Fill out the [migration_config.py](migration_config.py) file.
+### Add to the [migration_config.py](migration_config.py) file.
 
 - Create a branch with your work so you do not push your work directly to main:
 
@@ -41,16 +39,32 @@ This tool can be used in conjunction with a MySQL database to load data from spe
 
 - Edit all sections of the file:
 
-  - CSV_FILE_PATH
-    - **Do not use a path to your own csv file.** In this path, replace the **file name only** (make sure it has the suffix "\_no_comma.csv") with the name of the csv file you will use. All files needed should already be in the "resources" folder and have been modified to replace in-column commas. **One of these csv files must be used for the script to work.**
   - MIGRATION_CONFIG
-    - Replace example data with your table data, as shown.
-    - **IMPORTANT: Your table name, table attribute names, and csv column names should all be entered in this file exactly as they appear in your tables and in the csv.**
+    <details>
+      <summary><u>If the csv file you need <b>ALREADY EXISTS</b> as a "resource_path"</u></summary>
+        </br>
+        Under "tables" for that section, add an entry for all the tables you are assigned to that should be built using that file (in a way that respects referential integrity (parent first, then child)). Follow the structuring as seen with "User" and "Host", including all the table attribute names and associated csv column names.
+        </br>
+        </br>
+    </details>
+    <details>
+      <summary><u>If the csv file you need <b>DOES NOT EXIST</b> as a "resource_path"</u></summary>
+        </br>
+        Generate a new entry in the MIGRATION_CONFIG list for each csv file you need to add, including attributes "resource_path" and "tables."
+        </br>
+        </br>
+        Map the "resource_path" variable to a file name including suffix "_no_comma.csv". All csv files are located in the "resources" directory. These files have been modified to replace in-column commas. <b>Do not use a path to your own csv file. One of these csv files must be used for the script to work.</b>
+        </br>
+        </br>
+        Add an entry to "tables" for all the tables you are assigned to that will be built using the specified csv file (in a way that respects referential integrity (parent first, then child)). Follow the structuring as seen with "User" and "Host", including all the table attribute names and associated csv column names.
+    </details>
+    </br>
+  - **IMPORTANT: Your table name, table attribute names, and csv column names should all be entered in this file exactly as they appear in your tables and in the csv.**
   - UNIQUE_FIELDS
-    - Replace example data with any fields that must be unique **(put your primary keys here)**. The code has been written to **skip** any rows where an instance of your unique field has already been encountered.
+    - Add your table name and any fields that must be unique **(put your primary keys here)**. The code has been written to **skip** any rows where an instance of your unique field has already been encountered.
   - MYSQL_CONFIG
 
-    - If you are running this locally, my example in the file is what you will need (username and password may differ).
+    - If you are running this locally, my example in the file is what you will need (username and password may differ). Please use `Gr8BnBApplication` for the database.
     - Replace any differing data with the information you used to set up your MySQL database.
 
       - This data be found in MySQL Workbench by (on macOS) visiting "Database" in the menu bar and selecting "Manage Connections". The following window should appear:
@@ -66,13 +80,13 @@ This tool can be used in conjunction with a MySQL database to load data from spe
 
 ## Running the script (to be done EACH time)
 
-- Run your CREATE TABLE sql file in the MySQL workbench
+- Open [create_tables.sql](sql_files/create_tables.sql) in the MySQL workbench
 - In the terminal, `cd` into the `migration_tool` directory
 - Run the following command (if you get any errors, take a look at the troubleshooting section below):
 
   `python3 migrate.py`
 
-- Run your SELECT \* FROM TABLE sql file in the MySQL workbench to verify that the data has been populated as expected
+- Open [select_tables.sql](sql_files/selecy_tables.sql) in the MySQL workbench to verify that the data has been populated as expected
 
 ## Troubleshooting
 

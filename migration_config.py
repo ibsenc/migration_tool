@@ -16,8 +16,7 @@ MIGRATION_CONFIG = [
                 "mappings": [
                     {
                         "table_column": "ID",
-                        "csv_column": "host_id",
-                        "unique_set": set()
+                        "csv_column": "host_id"
                     },
                     {
                         "table_column": "Name",
@@ -38,8 +37,7 @@ MIGRATION_CONFIG = [
                 "mappings": [
                     {
                         "table_column": "ID",
-                        "csv_column": "host_id",
-                        "unique_set": set()
+                        "csv_column": "host_id"
                     },
                     {
                         "table_column": "HostUrl",
@@ -68,8 +66,85 @@ MIGRATION_CONFIG = [
                 ]
             }
         ]
+    },
+    {
+        "resource_path": "resources/reviews_no_comma.csv",
+        "tables": [
+            {
+                "name": "User",
+                "mappings": [
+                    {
+                        "table_column": "ID",
+                        "csv_column": "reviewer_id"
+                    },
+                    {
+                        "table_column": "Name",
+                        "csv_column": "reviewer_name"
+                    },
+                    {
+                        "table_column": "UserName",
+                        "csv_column": "{{GENERATE_USERNAME}}"
+                    },
+                    {
+                        "table_column": "Password",
+                        "csv_column": "{{GENERATE_PASSWORD}}"
+                    }
+                ]
+            },
+            {
+                "name": "Guest",
+                "mappings": [
+                    {
+                        "table_column": "ID",
+                        "csv_column": "reviewer_id"
+                    }
+                ]
+            },
+            {
+                "name": "Review",
+                "mappings": [
+                    {
+                        "table_column": "ID",
+                        "csv_column": "id"
+                    },
+                    {
+                        "table_column": "Date",
+                        "csv_column": "date"
+                    },
+                    {
+                        "table_column": "ReviewerID",
+                        "csv_column": "reviewer_id"
+                    },
+                    {
+                        "table_column": "Comments",
+                        "csv_column": "comments"
+                    },
+                    # {
+                    #     "table_column": "ListingID",
+                    #     "csv_column": "listing_id"
+                    # }
+                ]
+            }
+        ]
     }
 ]
+
+UNIQUE_FIELDS = {
+    # Table name (case sensitive)
+    "User": {
+        # Unique table column name (case sensitive)
+        "ID": set()
+    },
+    "Host": {
+        "ID": set()
+    },
+    "Guest": {
+        "ID": set()
+    },
+    "Review": {
+        "ID": set()
+    }
+}
 
 MYSQL_CONFIG = {
     "host": "localhost",
