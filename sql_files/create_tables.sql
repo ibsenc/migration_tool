@@ -49,6 +49,68 @@ CREATE TABLE Host (
 );
 
 # Create Table Listing
+CREATE TABLE Listing (
+    ID INT,
+    ListingUrl TEXT,
+    Name VARCHAR(255),
+    Description TEXT,
+    NeighborhoodOverview TEXT,
+    PictureUrl VARCHAR(255),
+    HostID INT,
+    Neighborhood VARCHAR(255),
+    Accommodates INT,
+    Bathrooms NUMERIC,
+    Bedrooms INT,
+    Price DECIMAL(13, 2),  -- Currency
+    HasAvailability BOOLEAN,
+    NumberOfReviews INT,
+    FirstReview DATE,
+    LastReview DATE,
+    License VARCHAR(255),
+    InstantBookable BOOLEAN,
+    Latitude DECIMAL(10, 5),
+    Longitude DECIMAL(10, 5),
+    RoomType ENUM('Entire home/apt', 'Private room', 'Shared room', 'Hotel room'),
+    PropertyType Text,
+
+    CONSTRAINT pk_Listing_ID PRIMARY KEY (ID),
+    CONSTRAINT fk_Host_HostID
+        FOREIGN KEY (HostID)
+        REFERENCES Host(ID)
+        ON UPDATE CASCADE
+        ON DELETE SET NULL,
+    CONSTRAINT fk_Neighborhood_Neighborhood
+        FOREIGN KEY (Neighborhood)
+        REFERENCES Neighborhood(Neighborhood)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+# Ingest
+# INSERT INTO Listing
+# SELECT
+#     id AS ID,
+#     listing_url AS ListingUrl,
+#     name AS Name,
+#     description AS Description,
+#     neighborhood_overview AS NeighborhoodOverview,
+#     picture_url AS PictureUrl,
+#     host_id AS HostID,
+#     neighbourhood AS Neighborhood,
+#     accommodates AS Accommodates,
+#     bathrooms AS Bathrooms,
+#     bedrooms AS Bedrooms,
+#     CAST(REPLACE(REPLACE(IFNULL(price, 0),',',''),'$','') AS DECIMAL(13,2)) AS Price,
+#     IF(has_availability = 't', TRUE, FALSE) AS HasAvailability,
+#     number_of_reviews AS NumberOfReviews,
+#     first_review AS FirstReview,
+#     last_review AS LastReview,
+#     license AS License,
+#     IF(instant_bookable = 't', TRUE, FALSE) AS InstantBookable,
+#     latitude AS Latitude,
+#     longitude AS Longitude,
+#     room_type AS RoomType,
+#     property_type AS PropertyType
+# FROM listings;
 
 # Create Table Guest
 CREATE TABLE Guest (
@@ -81,3 +143,4 @@ ALTER TABLE User CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE Host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE Guest CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE Review CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER TABLE Listing CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
