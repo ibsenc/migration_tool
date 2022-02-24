@@ -96,6 +96,9 @@ This tool can be used in conjunction with a MySQL database to load data from spe
     `import mysql.connector ModuleNotFoundError: No module named 'mysql'`,
 
     Run command: `pip install mysql-connector-python-rf`
+	- If that doesn't work,
+		
+      Run command: `pip install mysql-connector-python`
 
 - utf8mb4 Error
 
