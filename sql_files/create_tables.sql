@@ -83,8 +83,7 @@ CREATE TABLE ListingRating (
     ScoreType ENUM('Accuracy', 'Cleanliness', 'Checkin', 'Communication', 'Location', 'Value') NOT NULL,
     Score DECIMAL(2,1) NOT NULL,
     CONSTRAINT pk_ListingRating_ID PRIMARY KEY (ID),
-    CONSTRAINT uq_ListingRating_Rating UNIQUE (ListingID, ScoreType),
-    /*
+    /*CONSTRAINT uq_ListingRating_Rating UNIQUE (ListingID, ScoreType),
     CONSTRAINT fk_ListingRating_ListingID FOREIGN KEY (ListingID)
         REFERENCES Listing (ID)
         ON UPDATE CASCADE ON DELETE CASCADE, */
