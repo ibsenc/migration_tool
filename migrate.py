@@ -65,6 +65,7 @@ def insert_new_entry(row, table_name, cursor):
             row_index = csv_col_to_index[csv_column]
             # 9 -> {VALUE_IN_CSV}
             csv_value = replace_comma_tokens(str(row[row_index]))
+            csv_value = None if csv_value == "" else csv_value
             # map["HostUrl"] = {VALUE_IN_CSV}
             table_column_to_csv_value[table_column] = csv_value
         else:
@@ -100,7 +101,7 @@ for csv_config in MIGRATION_CONFIG:
 
         print(f"  Table: '{table['name']}'")
 
-        with open(resource_path, newline='') as csvfile:
+        with open(resource_path, newline='', errors = "ignore") as csvfile:
             csvreader = csv.reader(csvfile, delimiter=',')
             row_counter = 0
             csv_col_to_index = None
