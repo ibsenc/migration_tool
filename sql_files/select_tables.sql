@@ -6,6 +6,7 @@ SELECT * FROM Host;
 SELECT * FROM Guest;
 SELECT * FROM Review;
 SELECT * FROM Neighborhood;
+SELECT * FROM Calendar;
 
 SELECT COUNT(*) FROM User;
 SELECT COUNT(*) FROM Host;

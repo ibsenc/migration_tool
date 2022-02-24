@@ -144,6 +144,44 @@ MIGRATION_CONFIG = [
                 ]
             }
         ]
+    },
+    {
+        "resource_path": "resources/calendar_no_comma.csv",
+        "tables": [
+            {
+                "name": "Calendar",
+                "mappings": [
+                    {
+                        "table_column": "ListingId",
+                        "csv_column": "listing_id"
+                    },
+                    {
+                        "table_column": "Date",
+                        "csv_column": "date"
+                    },
+                    {
+                        "table_column": "Available",
+                        "csv_column": "available"
+                    },
+                    {
+                        "table_column": "Price",
+                        "csv_column": "price"
+                    },
+                    {
+                        "table_column": "AdjustedPrice",
+                        "csv_column": "adjusted_price"
+                    },
+                    {
+                        "table_column": "MinimumNights",
+                        "csv_column": "minimum_nights"
+                    },
+                    {
+                        "table_column": "MaximumNights",
+                        "csv_column": "maximum_nights"
+                    }
+                ]
+            }
+        ]
     }
 ]
 

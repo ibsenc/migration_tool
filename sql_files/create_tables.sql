@@ -76,6 +76,21 @@ CREATE TABLE Review (
         ON UPDATE CASCADE ON DELETE CASCADE */
 );
 
+CREATE TABLE Calendar(
+	ID INT AUTO_INCREMENT,
+	ListingId INT,
+	Date DATE,
+	Available BOOLEAN,
+	Price VARCHAR(255),
+	AdjustedPrice VARCHAR(255),
+	MinimumNights INT,
+	MaximumNights INT,
+	CONSTRAINT pk_Calendar_ID PRIMARY KEY(ID)
+	-- CONSTRAINT fk_Calendar_ListingId FOREIGN KEY(ListingId)
+-- 		REFERENCES Listing(ListingId)
+-- 		ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 
 ALTER TABLE User CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE Host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;

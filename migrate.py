@@ -61,18 +61,28 @@ def insert_new_entry(row, table_name, cursor):
         csv_column = table_mapping["csv_column"]
 
         if csv_column in csv_col_to_index.keys():
-            # "host_url" -> 9
+            # Table Column --> Row Index -> CSV Value
             row_index = csv_col_to_index[csv_column]
-            # 9 -> {VALUE_IN_CSV}
             csv_value = replace_comma_tokens(str(row[row_index]))
+
+            # Address boolean to bit mapping 'f' to 0 and 't' to 1
+            if csv_value == 'f':
+                csv_value = 0
+            elif csv_value == 't':
+                csv_value = 1
+
+            if "Nights" in table_column and not csv_value:
+                csv_value = 0
+
             # map["HostUrl"] = {VALUE_IN_CSV}
             table_column_to_csv_value[table_column] = csv_value
+
         else:
             custom_token = csv_column
             table_column_to_csv_value[table_column] = \
                 craft_value(custom_token, table_column_to_csv_value)
 
-        if table_column in UNIQUE_FIELDS[table_name].keys():
+        if table_name in UNIQUE_FIELDS and table_column in UNIQUE_FIELDS[table_name].keys():
             set_of_unique_values = UNIQUE_FIELDS[table_name][table_column]
             current_value = table_column_to_csv_value[table_column]
 
