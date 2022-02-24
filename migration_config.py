@@ -9,6 +9,24 @@ least dependent (on top) to most dependent (on bottom).
 """
 MIGRATION_CONFIG = [
     {
+        "resource_path": "resources/neighbourhoods_no_comma.csv",
+        "tables": [
+            {
+                "name": "Neighborhood",
+                "mappings": [
+                    {
+                        "table_column": "Neighborhood",
+                        "csv_column": "neighbourhood"
+                    },
+                    {
+                        "table_column": "NeighborhoodGroup",
+                        "csv_column": "neighbourhood_group"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "resource_path": "resources/listings_no_comma.csv",
         "tables": [
             {
@@ -143,6 +161,9 @@ UNIQUE_FIELDS = {
     },
     "Review": {
         "ID": set()
+    },
+    "Neighborhood": {
+        "Neighborhood": set()
     }
 }
 
