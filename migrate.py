@@ -70,7 +70,7 @@ def replace_comma_tokens(value):
     return value.replace("(c)", ",")
 
 
-def extract_foreach_values(list_string):
+def extract_foreach_values(list_string, cursor):
     list_string = list_string.replace('["', "")
     list_string = list_string.replace('"]', "")
     values = list_string.split('", "')
@@ -80,7 +80,16 @@ def extract_foreach_values(list_string):
         if value not in unique_amenities:
             unique_values.append(value)
             unique_amenities.add(value)
-    return unique_values
+
+    amenity_ids = []
+    for unique_value in unique_values:
+        # Insert into Amenity Table
+        cursor.execute(f"INSERT INTO Amenity (Title) values (\"{unique_value}\");")
+        cursor.execute("SELECT LAST_INSERT_ID()")
+        create_amenity_result = cursor.fetchone()[0]
+        amenity_ids.append(create_amenity_result)
+
+    return amenity_ids
 
 
 def insert_new_entry(row, table_name, cursor):
@@ -127,7 +136,7 @@ def insert_new_entry(row, table_name, cursor):
 
             if "foreach" in table_mapping.keys() and table_mapping["foreach"]:
                 foreach_column = table_column
-                foreach_values = extract_foreach_values(csv_value)
+                foreach_values = extract_foreach_values(csv_value, cursor)
 
         else:
             custom_token = csv_column

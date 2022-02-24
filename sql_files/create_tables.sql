@@ -149,6 +149,18 @@ CREATE TABLE Amenity(
 );
 
 # Create ListingAmenity
+CREATE TABLE ListingAmenity (
+    ID INT AUTO_INCREMENT,
+    ListingID INT UNSIGNED,
+    AmenityID INT,
+    CONSTRAINT pk_ListingAmenity_ID PRIMARY KEY (ID),
+    CONSTRAINT fk_ListingAmenity_ListingID FOREIGN KEY (ListingID)
+        REFERENCES Listing (ID)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT fk_ListingAmenity_AmenityID FOREIGN KEY (AmenityID)
+        REFERENCES Amenity (ID)
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
 
 # Create Calendar
 CREATE TABLE Calendar(

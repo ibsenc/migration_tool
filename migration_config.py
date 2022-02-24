@@ -30,16 +30,6 @@ MIGRATION_CONFIG = [
         "resource_path": "resources/listings_no_comma.csv",
         "tables": [
             {
-                "name": "Amenity",
-                "mappings": [
-                    {
-                        "table_column": "Title",
-                        "csv_column": "amenities",
-                        "foreach": True
-                    }
-                ]
-            },
-            {
                 "name": "User",
                 "mappings": [
                     {
@@ -238,6 +228,20 @@ MIGRATION_CONFIG = [
                     {
                         "table_column": "Rating",
                         "csv_column": "{{GENERATE_AVERAGE_RATING}}"
+                    }
+                ]
+            },
+            {
+                "name": "ListingAmenity",
+                "mappings": [
+                    {
+                        "table_column": "ListingID",
+                        "csv_column": "id"
+                    },
+                    {
+                        "table_column": "AmenityID",
+                        "csv_column": "amenities",
+                        "foreach": True
                     }
                 ]
             }
