@@ -13,6 +13,7 @@ from migration_config import (MIGRATION_CONFIG, MYSQL_CONFIG, UNIQUE_FIELDS)
 
 unique_amenities = set()
 
+
 def get_mysql_db():
     return mysql.connector.connect(
         host=MYSQL_CONFIG["host"],
@@ -47,7 +48,7 @@ def execute_insert_query(values, table_name, table_col_names, cursor):
 def insert_into_db(table_name, table_mappings, table_column_to_csv_value, cursor):
 
     if table_name == "ListingRating":
-        rating_columns = ["Accuracy", "Cleanliness", "Checkin", "Communication", "Location", "Value"]
+        rating_columns = ["Rating", "Accuracy", "Cleanliness", "Checkin", "Communication", "Location", "Value"]
         for temp_rating_column in rating_columns:
             host_id = table_column_to_csv_value["HostID"]
             listing_id = table_column_to_csv_value["ListingID"]
@@ -120,7 +121,6 @@ def insert_new_entry(row, table_name, cursor):
 
             if (table_column in ["FirstReview", "LastReview"]) and not csv_value:
                 csv_value = None
-        
 
             # map["HostUrl"] = {VALUE_IN_CSV}
             table_column_to_csv_value[table_column] = csv_value
@@ -131,8 +131,12 @@ def insert_new_entry(row, table_name, cursor):
 
         else:
             custom_token = csv_column
-            table_column_to_csv_value[table_column] = \
-                craft_value(custom_token, table_column_to_csv_value)
+            custom_value = craft_value(custom_token, table_column_to_csv_value, cursor)
+
+            if (not custom_value):
+                return
+
+            table_column_to_csv_value[table_column] = custom_value     
 
         if table_name in UNIQUE_FIELDS and table_column in UNIQUE_FIELDS[table_name].keys():
             set_of_unique_values = UNIQUE_FIELDS[table_name][table_column]

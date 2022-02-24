@@ -199,6 +199,10 @@ MIGRATION_CONFIG = [
                         "csv_column": "host_id"
                     },
                     {
+                        "table_column": "Rating",
+                        "csv_column": "review_scores_rating"
+                    },
+                    {
                         "table_column": "Accuracy",
                         "csv_column": "review_scores_accuracy"
                     },
@@ -221,6 +225,19 @@ MIGRATION_CONFIG = [
                     {
                         "table_column": "Value",
                         "csv_column": "review_scores_value"
+                    }
+                ]
+            },
+            {
+                "name": "HostRating",
+                "mappings": [
+                    {
+                        "table_column": "HostID",
+                        "csv_column": "host_id"
+                    },
+                    {
+                        "table_column": "Rating",
+                        "csv_column": "{{GENERATE_AVERAGE_RATING}}"
                     }
                 ]
             }

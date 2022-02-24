@@ -7,8 +7,8 @@ USE Gr8BnBApplication;
 DROP TABLE IF EXISTS Calendar;
 DROP TABLE IF EXISTS ListingAmenity;
 DROP TABLE IF EXISTS Amenity;
-DROP TABLE IF EXISTS ListingRating;
 DROP TABLE IF EXISTS HostRating;
+DROP TABLE IF EXISTS ListingRating;
 DROP TABLE IF EXISTS Review;
 DROP TABLE IF EXISTS Guest;
 DROP TABLE IF EXISTS Listing;
@@ -113,15 +113,12 @@ CREATE TABLE Review (
         ON UPDATE CASCADE ON DELETE CASCADE */
 );
 
-
-# Create HostRating
-
 # Create ListingRating
 CREATE TABLE ListingRating (
     ID INT AUTO_INCREMENT,
     ListingID INT UNSIGNED,
     HostID INT UNSIGNED,
-    ScoreType ENUM('Accuracy', 'Cleanliness', 'Checkin', 'Communication', 'Location', 'Value') NOT NULL,
+    ScoreType ENUM('Rating', 'Accuracy', 'Cleanliness', 'Checkin', 'Communication', 'Location', 'Value') NOT NULL,
     Score DECIMAL(2,1) NULL,
     CONSTRAINT pk_ListingRating_ID PRIMARY KEY (ID),
     CONSTRAINT uq_ListingRating_Rating UNIQUE (ListingID, ScoreType),
@@ -130,6 +127,17 @@ CREATE TABLE ListingRating (
         ON UPDATE CASCADE ON DELETE CASCADE,
 	CONSTRAINT fk_ListingRating_HostID FOREIGN KEY (HostID)
         REFERENCES Host (ID)
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+# Create HostRating
+CREATE TABLE HostRating (
+	ID INT UNSIGNED AUTO_INCREMENT,
+    HostID INT UNSIGNED,
+    Rating DECIMAL(3,2) NULL DEFAULT NULL,
+    CONSTRAINT pk_HostRating_ID PRIMARY KEY (ID),
+    CONSTRAINT fk_HostRating_HostID FOREIGN KEY (HostID)
+		REFERENCES Host (ID)
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -143,7 +151,6 @@ CREATE TABLE Amenity(
 # Create ListingAmenity
 
 # Create Calendar
-
 CREATE TABLE Calendar(
 	ID INT AUTO_INCREMENT,
 	ListingId INT,

@@ -97,6 +97,8 @@ This tool can be used in conjunction with a MySQL database to load data from spe
 
     Run command: `pip install mysql-connector-python-rf`
 
+    - If that doesn't work, run command: `pip install mysql-connector-python`
+
 - utf8mb4 Error
 
   - If any of the columns you are trying to migrate contain (or possibly contain) emojis, you may get an error. Add the following statement to the bottom of your CREAT TABLE sql file (edit the TABLE_NAME placeholder):
