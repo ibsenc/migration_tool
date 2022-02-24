@@ -131,11 +131,11 @@ MIGRATION_CONFIG = [
                         "table_column": "Bedrooms",
                         "csv_column": "bedrooms"
                     },
-                    {  # Processed
+                    {
                         "table_column": "Price",
                         "csv_column": "price"
                     },
-                    {  # Processed
+                    {
                         "table_column": "HasAvailability",
                         "csv_column": "has_availability"
                     },
@@ -155,7 +155,7 @@ MIGRATION_CONFIG = [
                         "table_column": "License",
                         "csv_column": "license"
                     },
-                    {  # Processed
+                    {
                         "table_column": "InstantBookable",
                         "csv_column": "instant_bookable"
                     },
@@ -299,10 +299,10 @@ MIGRATION_CONFIG = [
                         "table_column": "Comments",
                         "csv_column": "comments"
                     },
-                    # {
-                    #     "table_column": "ListingID",
-                    #     "csv_column": "listing_id"
-                    # }
+                    {
+                        "table_column": "ListingID",
+                        "csv_column": "listing_id"
+                    }
                 ]
             }
         ]
@@ -314,7 +314,7 @@ MIGRATION_CONFIG = [
                 "name": "Calendar",
                 "mappings": [
                     {
-                        "table_column": "ListingId",
+                        "table_column": "ListingID",
                         "csv_column": "listing_id"
                     },
                     {

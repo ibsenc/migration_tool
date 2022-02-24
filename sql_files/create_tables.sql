@@ -22,7 +22,7 @@ CREATE TABLE Neighborhood (
     NeighborhoodGroup VARCHAR(255),
     CONSTRAINT pk_Neighborhood_Neighborhood PRIMARY KEY (Neighborhood)
 );
-ALTER TABLE Neighborhood CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;-- 
+ALTER TABLE Neighborhood CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 
 # Create Table User
 CREATE TABLE User (
@@ -62,7 +62,7 @@ CREATE TABLE Listing (
     Accommodates INT,
     Bathrooms NUMERIC,
     Bedrooms INT,
-    Price DECIMAL(13, 2),  -- Currency
+    Price DECIMAL(13, 2),
     HasAvailability BOOLEAN,
     NumberOfReviews INT,
     FirstReview DATE,
@@ -103,14 +103,14 @@ CREATE TABLE Review (
     Date DATE,
     ReviewerID INT UNSIGNED,
     Comments TEXT,
-    -- ListingID INT UNSIGNED,
+    ListingID INT UNSIGNED,
     CONSTRAINT pk_Review_ID PRIMARY KEY (ID),
     CONSTRAINT fk_Review_ReviewerID FOREIGN KEY (ReviewerID)
         REFERENCES Guest (ID)
-        ON UPDATE CASCADE ON DELETE SET NULL/*,
+        ON UPDATE CASCADE ON DELETE SET NULL,
     CONSTRAINT fk_Review_ListingID FOREIGN KEY (ListingID)
         REFERENCES Listing (ID)
-        ON UPDATE CASCADE ON DELETE CASCADE */
+        ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 # Create ListingRating
@@ -165,17 +165,17 @@ CREATE TABLE ListingAmenity (
 # Create Calendar
 CREATE TABLE Calendar(
 	ID INT AUTO_INCREMENT,
-	ListingId INT,
+	ListingID INT UNSIGNED,
 	Date DATE,
 	Available BOOLEAN,
 	Price VARCHAR(255),
 	AdjustedPrice VARCHAR(255),
 	MinimumNights INT,
 	MaximumNights INT,
-	CONSTRAINT pk_Calendar_ID PRIMARY KEY(ID)
-	-- CONSTRAINT fk_Calendar_ListingId FOREIGN KEY(ListingId)
--- 		REFERENCES Listing(ListingId)
--- 		ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT pk_Calendar_ID PRIMARY KEY(ID),
+	CONSTRAINT fk_Calendar_ListingId FOREIGN KEY(ListingID)
+		REFERENCES Listing(ID)
+		ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
