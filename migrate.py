@@ -29,28 +29,40 @@ def get_string_of_table_col_names(table_mappings):
     return ", ".join(table_columns)
 
 
-def get_string_tokens(mapping):
+def get_string_tokens(num_tokens):
     tokens = []
-    for _ in range(len(mapping)):
+    for _ in range(num_tokens):
         tokens.append("%s")
     return ", ".join(tokens)
 
 
-def insert_into_db(table_name, table_mappings, values, cursor):
-    table_column_names = get_string_of_table_col_names(table_mappings)
-    table_column_value_tokens = get_string_tokens(table_mappings)
-    query = f"INSERT INTO {table_name} ({table_column_names}) VALUES " \
+def execute_insert_query(values, table_name, table_col_names, cursor):
+    table_column_value_tokens = get_string_tokens(len(values))
+    query = f"INSERT INTO {table_name} ({table_col_names}) VALUES " \
             f"({table_column_value_tokens})"
 
-    # if table_name == "Listing":
-    #     print(f"{len(table_column_names)}, {len(table_column_value_tokens)}, {len(values)}")
-    #     print(table_column_names)
-    #     print(table_column_value_tokens)
-    #     print(values)
-    #     print()
+    cursor.execute(query, values)
 
 
-    cursor.execute(query, tuple(values))
+def insert_into_db(table_name, table_mappings, table_column_to_csv_value, cursor):
+
+    if table_name == "ListingRating":
+        rating_columns = ["Accuracy", "Cleanliness", "Checkin", "Communication", "Location", "Value"]
+        for temp_rating_column in rating_columns:
+            host_id = table_column_to_csv_value["HostID"]
+            listing_id = table_column_to_csv_value["ListingID"]
+
+            score = table_column_to_csv_value[temp_rating_column]
+            score = score if score else None
+
+            values = (listing_id, host_id, score, temp_rating_column)
+            table_col_names = "ListingID, HostID, Score, ScoreType"
+            execute_insert_query(values, table_name, table_col_names, cursor)
+
+    else:
+        values = tuple(table_column_to_csv_value.values())
+        table_col_names = get_string_of_table_col_names(table_mappings)
+        execute_insert_query(values, table_name, table_col_names, cursor)
 
 
 def replace_comma_tokens(value):
@@ -136,12 +148,12 @@ def insert_new_entry(row, table_name, cursor):
 
     if not foreach_column:
         insert_into_db(
-            table_name, table_mappings, table_column_to_csv_value.values(), cursor)
+            table_name, table_mappings, table_column_to_csv_value, cursor)
 
     else:
         for foreach_value in foreach_values:
             table_column_to_csv_value[foreach_column] = foreach_value
-            insert_into_db(table_name, table_mappings, table_column_to_csv_value.values(), cursor)
+            insert_into_db(table_name, table_mappings, table_column_to_csv_value, cursor)
 
 
 mydb = get_mysql_db()
@@ -154,7 +166,7 @@ for csv_config in MIGRATION_CONFIG:
 
     for table in csv_config["tables"]:
 
-        print(f"  Table: '{table['name']}'")
+        print(f"  - Table: '{table['name']}'")
 
         with open(resource_path, newline='') as csvfile:
             csvreader = csv.reader(csvfile, delimiter=',')
@@ -173,8 +185,8 @@ for csv_config in MIGRATION_CONFIG:
                 # # You can un-comment this to load a smaller portion of the rows
                 # if row_counter >= 5:
                 #     break
+        print(f"  - Committing collected queries for table '{table['name']}' to database '{MYSQL_CONFIG['database']}.'")
+        mydb.commit()
 
 # This commits all queries to the db, making changes in the DB you set up
-print(f"Committing collected queries to database '{MYSQL_CONFIG['database']}.'")
-mydb.commit()
 print("Migration complete.")

@@ -9,6 +9,7 @@ SELECT * FROM Neighborhood;
 SELECT * FROM Calendar;
 SELECT * FROM Amenity;
 SELECT * FROM Listing;
+SELECT * FROM ListingRating;
 
 -- 
 -- SELECT COUNT(*) FROM User;

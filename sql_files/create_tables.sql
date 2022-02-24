@@ -51,7 +51,7 @@ CREATE TABLE Host (
 
 # Create Table Listing
 CREATE TABLE Listing (
-    ID INT,
+    ID INT UNSIGNED,
     ListingUrl TEXT,
     Name VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
     Description TEXT,
@@ -113,6 +113,37 @@ CREATE TABLE Review (
         ON UPDATE CASCADE ON DELETE CASCADE */
 );
 
+
+# Create HostRating
+
+# Create ListingRating
+CREATE TABLE ListingRating (
+    ID INT AUTO_INCREMENT,
+    ListingID INT UNSIGNED,
+    HostID INT UNSIGNED,
+    ScoreType ENUM('Accuracy', 'Cleanliness', 'Checkin', 'Communication', 'Location', 'Value') NOT NULL,
+    Score DECIMAL(2,1) NULL,
+    CONSTRAINT pk_ListingRating_ID PRIMARY KEY (ID),
+    CONSTRAINT uq_ListingRating_Rating UNIQUE (ListingID, ScoreType),
+    CONSTRAINT fk_ListingRating_ListingID FOREIGN KEY (ListingID)
+        REFERENCES Listing (ID)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT fk_ListingRating_HostID FOREIGN KEY (HostID)
+        REFERENCES Host (ID)
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+# Create Amenity
+CREATE TABLE Amenity(
+	ID INT AUTO_INCREMENT,
+	Title TEXT,
+	CONSTRAINT pk_Amenity_ID PRIMARY KEY(ID)
+);
+
+# Create ListingAmenity
+
+# Create Calendar
+
 CREATE TABLE Calendar(
 	ID INT AUTO_INCREMENT,
 	ListingId INT,
@@ -127,22 +158,6 @@ CREATE TABLE Calendar(
 -- 		REFERENCES Listing(ListingId)
 -- 		ON UPDATE CASCADE ON DELETE CASCADE
 );
-
-
-# Create HostRating
-
-# Create ListingRating
-
-# Create Amenity
-CREATE TABLE Amenity(
-	ID INT AUTO_INCREMENT,
-	Title TEXT,
-	CONSTRAINT pk_Amenity_ID PRIMARY KEY(ID)
-);
-
-# Create ListingAmenity
-
-# Create Calendar
 
 
 ALTER TABLE User CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;

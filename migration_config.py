@@ -186,6 +186,43 @@ MIGRATION_CONFIG = [
                         "csv_column": "property_type"
                     },
                 ]
+            },
+            {
+                "name": "ListingRating",
+                "mappings": [
+                    {
+                        "table_column": "ListingID",
+                        "csv_column": "id"
+                    },
+                    {
+                        "table_column": "HostID",
+                        "csv_column": "host_id"
+                    },
+                    {
+                        "table_column": "Accuracy",
+                        "csv_column": "review_scores_accuracy"
+                    },
+                    {
+                        "table_column": "Cleanliness",
+                        "csv_column": "review_scores_cleanliness"
+                    },
+                    {
+                        "table_column": "Checkin",
+                        "csv_column": "review_scores_checkin"
+                    },
+                    {
+                        "table_column": "Communication",
+                        "csv_column": "review_scores_communication"
+                    },
+                    {
+                        "table_column": "Location",
+                        "csv_column": "review_scores_location"
+                    },
+                    {
+                        "table_column": "Value",
+                        "csv_column": "review_scores_value"
+                    }
+                ]
             }
         ]
     },
