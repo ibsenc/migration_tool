@@ -71,6 +71,22 @@ CREATE TABLE Review (
         ON UPDATE CASCADE ON DELETE CASCADE */
 );
 
+CREATE TABLE ListingRating (
+    ID INT AUTO_INCREMENT,
+   -- ListingID INT UNSIGNED,
+    HostID INT UNSIGNED,
+    ScoreType ENUM('Accuracy', 'Cleanliness', 'Checkin', 'Communication', 'Location', 'Value') NOT NULL,
+    Score DECIMAL(2,1) NOT NULL,
+    CONSTRAINT pk_ListingRating_ID PRIMARY KEY (ID),
+    CONSTRAINT uq_ListingRating_Rating UNIQUE (ListingID, ScoreType),
+    /*
+    CONSTRAINT fk_ListingRating_ListingID FOREIGN KEY (ListingID)
+        REFERENCES Listing (ID)
+        ON UPDATE CASCADE ON DELETE CASCADE, */
+	CONSTRAINT fk_ListingRating_HostID FOREIGN KEY (HostID)
+        REFERENCES Host (ID)
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
 
 ALTER TABLE User CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE Host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;

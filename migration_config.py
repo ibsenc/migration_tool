@@ -126,6 +126,32 @@ MIGRATION_CONFIG = [
                 ]
             }
         ]
+    },
+    {
+        "resource_path": "resources/listing_rating_no_comma.csv",
+        "tables": [
+            {
+                "name": "ListingRating",
+                "mappings": [
+                    {
+                        "table_column": "ListingID",
+                        "csv_column": "listing_id"
+                    },
+                    {
+                        "table_column": "HostID",
+                        "csv_column": "host_id"
+                    },
+                    {
+                        "table_column": "ScoreType",
+                        "csv_column": "score_type"
+                    },
+                    {
+                        "table_column": "Score",
+                        "csv_column": "score"
+                    }
+                ]
+            }
+        ]
     }
 ]
 
