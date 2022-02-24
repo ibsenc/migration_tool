@@ -92,6 +92,100 @@ MIGRATION_CONFIG = [
                         "csv_column": "host_total_listings_count"
                     },
                 ]
+            },
+            {
+                "resource_path": "resources/listings_no_comma.csv",
+                "name": "Listing",
+                "mappings": [
+                    {
+                        "table_column": "ID",
+                        "csv_column": "id"
+                    },
+                    {
+                        "table_column": "ListingUrl",
+                        "csv_column": "listing_url"
+                    },
+                    {
+                        "table_column": "Name",
+                        "csv_column": "name"
+                    },
+                    {
+                        "table_column": "Description",
+                        "csv_column": "description"
+                    },
+                    {
+                        "table_column": "NeighborhoodOverview",
+                        "csv_column": "neighborhood_overview"
+                    },
+                    {
+                        "table_column": "PictureUrl",
+                        "csv_column": "picture_url"
+                    },
+                    {
+                        "table_column": "HostID",
+                        "csv_column": "host_id"
+                    },
+                    {
+                        "table_column": "Neighborhood",
+                        "csv_column": "neighbourhood_cleansed"
+                    },
+                    {
+                        "table_column": "Accommodates",
+                        "csv_column": "accommodates"
+                    },
+                    {
+                        "table_column": "Bathrooms",
+                        "csv_column": "bathrooms"
+                    },
+                    {
+                        "table_column": "Bedrooms",
+                        "csv_column": "bedrooms"
+                    },
+                    {  # Processed
+                        "table_column": "Price",
+                        "csv_column": "price"
+                    },
+                    {  # Processed
+                        "table_column": "HasAvailability",
+                        "csv_column": "has_availability"
+                    },
+                    {
+                        "table_column": "NumberOfReviews",
+                        "csv_column": "number_of_reviews"
+                    },
+                    {
+                        "table_column": "FirstReview",
+                        "csv_column": "first_review"
+                    },
+                    {
+                        "table_column": "LastReview",
+                        "csv_column": "last_review"
+                    },
+                    {
+                        "table_column": "License",
+                        "csv_column": "license"
+                    },
+                    {  # Processed
+                        "table_column": "InstantBookable",
+                        "csv_column": "instant_bookable"
+                    },
+                    {
+                        "table_column": "Latitude",
+                        "csv_column": "latitude"
+                    },
+                    {
+                        "table_column": "Longitude",
+                        "csv_column": "longitude"
+                    },
+                    {
+                        "table_column": "RoomType",
+                        "csv_column": "room_type"
+                    },
+                    {
+                        "table_column": "PropertyType",
+                        "csv_column": "property_type"
+                    },
+                ]
             }
         ]
     },

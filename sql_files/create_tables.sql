@@ -22,6 +22,7 @@ CREATE TABLE Neighborhood (
     NeighborhoodGroup VARCHAR(255),
     CONSTRAINT pk_Neighborhood_Neighborhood PRIMARY KEY (Neighborhood)
 );
+ALTER TABLE Neighborhood CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;-- 
 
 # Create Table User
 CREATE TABLE User (
@@ -49,6 +50,42 @@ CREATE TABLE Host (
 );
 
 # Create Table Listing
+CREATE TABLE Listing (
+    ID INT,
+    ListingUrl TEXT,
+    Name VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    Description TEXT,
+    NeighborhoodOverview TEXT,
+    PictureUrl VARCHAR(255),
+    HostID INT UNSIGNED,
+    Neighborhood VARCHAR(255),
+    Accommodates INT,
+    Bathrooms NUMERIC,
+    Bedrooms INT,
+    Price DECIMAL(13, 2),  -- Currency
+    HasAvailability BOOLEAN,
+    NumberOfReviews INT,
+    FirstReview DATE,
+    LastReview DATE,
+    License VARCHAR(255),
+    InstantBookable BOOLEAN,
+    Latitude DECIMAL(10, 5),
+    Longitude DECIMAL(10, 5),
+    RoomType ENUM('Entire home/apt', 'Private room', 'Shared room', 'Hotel room'),
+    PropertyType Text,
+
+    CONSTRAINT pk_Listing_ID PRIMARY KEY (ID),
+    CONSTRAINT fk_Listing_HostID
+        FOREIGN KEY (HostID)
+        REFERENCES Host(ID)
+        ON UPDATE CASCADE
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+ALTER TABLE Listing CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER TABLE Listing  ADD  CONSTRAINT fk_Listing_Neighborhood FOREIGN KEY (Neighborhood) REFERENCES Neighborhood(Neighborhood) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE Listing MODIFY COLUMN Name VARCHAR(255)  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
+
+
 
 # Create Table Guest
 CREATE TABLE Guest (
@@ -112,3 +149,4 @@ ALTER TABLE User CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE Host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE Guest CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE Review CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER DATABASE Gr8BnBApplication CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci; 

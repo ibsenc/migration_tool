@@ -42,6 +42,14 @@ def insert_into_db(table_name, table_mappings, values, cursor):
     query = f"INSERT INTO {table_name} ({table_column_names}) VALUES " \
             f"({table_column_value_tokens})"
 
+    # if table_name == "Listing":
+    #     print(f"{len(table_column_names)}, {len(table_column_value_tokens)}, {len(values)}")
+    #     print(table_column_names)
+    #     print(table_column_value_tokens)
+    #     print(values)
+    #     print()
+
+
     cursor.execute(query, tuple(values))
 
 
@@ -83,14 +91,24 @@ def insert_new_entry(row, table_name, cursor):
             row_index = csv_col_to_index[csv_column]
             csv_value = replace_comma_tokens(str(row[row_index]))
 
+            if len(csv_value) > 0 and csv_value[0] == "$":
+                csv_value = csv_value.replace("$", "").replace(",", "")
+
+            if table_column in ["Name", "Description", "NeighborhoodOverview"]:
+                csv_value = str(csv_value.encode("utf-8").decode('utf-8', 'ignore').encode("utf-8"))[2:-1]
+
             # Address boolean to bit mapping 'f' to 0 and 't' to 1
             if csv_value == 'f':
                 csv_value = 0
             elif csv_value == 't':
                 csv_value = 1
 
-            if "Nights" in table_column and not csv_value:
+            if ("Nights" in table_column or table_column in ["Bathrooms", "Bedrooms"]) and not csv_value:
                 csv_value = 0
+
+            if (table_column in ["FirstReview", "LastReview"]) and not csv_value:
+                csv_value = None
+        
 
             # map["HostUrl"] = {VALUE_IN_CSV}
             table_column_to_csv_value[table_column] = csv_value
@@ -152,7 +170,7 @@ for csv_config in MIGRATION_CONFIG:
                     insert_new_entry(row, table, mycursor)
                 row_counter += 1
 
-                # You can un-comment this to load a smaller portion of the rows
+                # # You can un-comment this to load a smaller portion of the rows
                 # if row_counter >= 5:
                 #     break
 
