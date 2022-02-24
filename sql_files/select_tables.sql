@@ -5,8 +5,8 @@ SELECT * FROM User;
 SELECT * FROM Host;
 SELECT * FROM Guest;
 SELECT * FROM Review;
-SELECT * FROM Neighorhood;
-SELECT * FROM ListingRating;
+SELECT * FROM Neighborhood;
+SELECT * FROM ListingRating;;
 
 SELECT COUNT(*) FROM User;
 SELECT COUNT(*) FROM Host;
