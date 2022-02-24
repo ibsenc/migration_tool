@@ -92,6 +92,22 @@ CREATE TABLE Calendar(
 );
 
 
+# Create HostRating
+
+# Create ListingRating
+
+# Create Amenity
+CREATE TABLE Amenity(
+	ID INT AUTO_INCREMENT,
+	Title TEXT,
+	CONSTRAINT pk_Amenity_ID PRIMARY KEY(ID)
+);
+
+# Create ListingAmenity
+
+# Create Calendar
+
+
 ALTER TABLE User CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE Host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE Guest CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;

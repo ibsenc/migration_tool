@@ -30,6 +30,16 @@ MIGRATION_CONFIG = [
         "resource_path": "resources/listings_no_comma.csv",
         "tables": [
             {
+                "name": "Amenity",
+                "mappings": [
+                    {
+                        "table_column": "Title",
+                        "csv_column": "amenities",
+                        "foreach": True
+                    }
+                ]
+            },
+            {
                 "name": "User",
                 "mappings": [
                     {
