@@ -64,6 +64,23 @@ MIGRATION_CONFIG = [
                         "csv_column": "host_total_listings_count"
                     },
                 ]
+            },
+            {
+                "name": "HostRating",
+                "mappings": [
+                    {
+                        "table_column": ID
+                        "csv_column": "{{GENERATE_ID}}"
+                    },
+                    {
+                        "table_column": "HostID",
+                        "csv_column": "host_id"
+                    },
+                    {
+                        "table_column": "Rating",
+                        "csv_column": "review_scores_rating"
+                    }
+                ]
             }
         ]
     },
@@ -142,6 +159,9 @@ UNIQUE_FIELDS = {
         "ID": set()
     },
     "Review": {
+        "ID": set()
+    },
+    "HostRating": {
         "ID": set()
     }
 }
