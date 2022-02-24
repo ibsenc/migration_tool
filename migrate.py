@@ -11,6 +11,8 @@ from custom_functions import craft_value
 from migration_config import (MIGRATION_CONFIG, MYSQL_CONFIG, UNIQUE_FIELDS)
 
 
+unique_amenities = set()
+
 def get_mysql_db():
     return mysql.connector.connect(
         host=MYSQL_CONFIG["host"],
@@ -47,9 +49,25 @@ def replace_comma_tokens(value):
     return value.replace("(c)", ",")
 
 
+def extract_foreach_values(list_string):
+    list_string = list_string.replace('["', "")
+    list_string = list_string.replace('"]', "")
+    values = list_string.split('", "')
+
+    unique_values = []
+    for value in values:
+        if value not in unique_amenities:
+            unique_values.append(value)
+            unique_amenities.add(value)
+    return unique_values
+
+
 def insert_new_entry(row, table_name, cursor):
     table_name = table["name"]
     table_mappings = table["mappings"]
+
+    foreach_values = None
+    foreach_column = None
 
     table_column_to_csv_value = {}
     for table_mapping in table_mappings:
@@ -65,14 +83,20 @@ def insert_new_entry(row, table_name, cursor):
             row_index = csv_col_to_index[csv_column]
             # 9 -> {VALUE_IN_CSV}
             csv_value = replace_comma_tokens(str(row[row_index]))
+
             # map["HostUrl"] = {VALUE_IN_CSV}
             table_column_to_csv_value[table_column] = csv_value
+
+            if "foreach" in table_mapping.keys() and table_mapping["foreach"]:
+                foreach_column = table_column
+                foreach_values = extract_foreach_values(csv_value)
+
         else:
             custom_token = csv_column
             table_column_to_csv_value[table_column] = \
                 craft_value(custom_token, table_column_to_csv_value)
 
-        if table_column in UNIQUE_FIELDS[table_name].keys():
+        if table_name in UNIQUE_FIELDS and table_column in UNIQUE_FIELDS[table_name].keys():
             set_of_unique_values = UNIQUE_FIELDS[table_name][table_column]
             current_value = table_column_to_csv_value[table_column]
 
@@ -84,8 +108,14 @@ def insert_new_entry(row, table_name, cursor):
             else:
                 return
 
-    insert_into_db(
-        table_name, table_mappings, table_column_to_csv_value.values(), cursor)
+    if not foreach_column:
+        insert_into_db(
+            table_name, table_mappings, table_column_to_csv_value.values(), cursor)
+
+    else:
+        for foreach_value in foreach_values:
+            table_column_to_csv_value[foreach_column] = foreach_value
+            insert_into_db(table_name, table_mappings, table_column_to_csv_value.values(), cursor)
 
 
 mydb = get_mysql_db()
