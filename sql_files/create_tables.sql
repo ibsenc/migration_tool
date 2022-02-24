@@ -76,6 +76,19 @@ CREATE TABLE Review (
         ON UPDATE CASCADE ON DELETE CASCADE */
 );
 
+# Create Table ListingAmenity
+CREATE TABLE ListingAmenity (
+    ID INT auto_increment,
+    ListingID INT,
+    AmenitiesID INT,
+    CONSTRAINT pk_ListingAmenity_ID PRIMARY KEY (ID)#,
+--     CONSTRAINT fk_ListingAmenity_ListingID FOREIGN KEY (ListingID)
+--         REFERENCES Listing (ID)
+--         ON UPDATE CASCADE ON DELETE CASCADE,
+-- 	CONSTRAINT fk_ListingAmenity_AmenitiesID FOREIGN KEY (AmenitiesID)
+--         REFERENCES Amenity (ID)
+--         ON UPDATE CASCADE ON DELETE CASCADE
+);
 
 ALTER TABLE User CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE Host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;

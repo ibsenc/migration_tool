@@ -82,6 +82,15 @@ MIGRATION_CONFIG = [
                         "csv_column": "host_total_listings_count"
                     },
                 ]
+            },
+            {
+                "name": "ListingAmenity",
+                "mappings": [
+                    {
+                        "table_column": "ListingID",
+                        "csv_column": "id"
+                    }
+                ]
             }
         ]
     },
@@ -164,7 +173,11 @@ UNIQUE_FIELDS = {
     },
     "Neighborhood": {
         "Neighborhood": set()
-    }
+    },
+    "ListingAmenity": {
+        "ID": set()
+    },
+
 }
 
 MYSQL_CONFIG = {
