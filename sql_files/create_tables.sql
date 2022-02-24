@@ -14,9 +14,14 @@ DROP TABLE IF EXISTS Guest;
 DROP TABLE IF EXISTS Listing;
 DROP TABLE IF EXISTS Host;
 DROP TABLE IF EXISTS User;
-DROP TABLE IF EXISTS Neighbourhood;
+DROP TABLE IF EXISTS Neighborhood;
 
-# Create Table Neighbourhood
+# Create Table Neighborhood
+CREATE TABLE Neighborhood (
+	Neighborhood VARCHAR(255),
+    NeighborhoodGroup VARCHAR(255),
+    CONSTRAINT pk_Neighborhood_Neighborhood PRIMARY KEY (Neighborhood)
+);
 
 # Create Table User
 CREATE TABLE User (
