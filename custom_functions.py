@@ -31,6 +31,13 @@ def generate_password():
     characters = string.ascii_letters + string.digits
     return ''.join(random.choice(characters) for _ in range(12))
 
+# Custom Action for Token: {{GENERATE_PASSWORD}}
+id = 0
+def generate_id():
+    global id
+    result = id + 1
+    id = result
+    return result
 
 # CUSTOM FUNCTION ROUTER
 def craft_value(token, table_column_to_csv_value):
@@ -43,5 +50,7 @@ def craft_value(token, table_column_to_csv_value):
         return generate_username(table_column_to_csv_value)
     if token == "{{GENERATE_PASSWORD}}":
         return generate_password()
+    if token == "{{GENERATE_ID}}":
+        return generate_id()
     raise Exception(f"Found unrecognized token '{token}'. Please verify " +
                     "migration config in 'migration_config.py'.")
