@@ -18,14 +18,14 @@ DROP TABLE IF EXISTS Neighborhood;
 
 # Create Table Neighborhood
 CREATE TABLE Neighborhood (
-	Neighborhood VARCHAR(255),
+    Neighborhood VARCHAR(255),
     NeighborhoodGroup VARCHAR(255),
     CONSTRAINT pk_Neighborhood_Neighborhood PRIMARY KEY (Neighborhood)
 );
 
 # Create Table User
 CREATE TABLE User (
-	ID INT UNSIGNED,
+    ID INT UNSIGNED,
     Name VARCHAR(255) NOT NULL,
     UserName VARCHAR(255) NOT NULL,
     Password VARCHAR(255) NOT NULL,
