@@ -69,10 +69,6 @@ MIGRATION_CONFIG = [
                 "name": "HostRating",
                 "mappings": [
                     {
-                        "table_column": ID
-                        "csv_column": "{{GENERATE_ID}}"
-                    },
-                    {
                         "table_column": "HostID",
                         "csv_column": "host_id"
                     },

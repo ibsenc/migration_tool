@@ -73,7 +73,7 @@ CREATE TABLE Review (
 
 # Create Tabe HostRaing
 CREATE TABLE HostRating (
-	ID INT UNSIGNED,
+	ID INT UNSIGNED AUTO_INCREMENT,
     HostID INT UNSIGNED,
     Rating DECIMAL (2,1),
     CONSTRAINT pk_HostRating_ID PRIMARY KEY (ID),
