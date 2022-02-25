@@ -79,10 +79,10 @@ CREATE TABLE Listing (
         FOREIGN KEY (HostID)
         REFERENCES Host(ID)
         ON UPDATE CASCADE
-        ON DELETE SET NULL
+        ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 ALTER TABLE Listing CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
-ALTER TABLE Listing  ADD  CONSTRAINT fk_Listing_Neighborhood FOREIGN KEY (Neighborhood) REFERENCES Neighborhood(Neighborhood) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE Listing  ADD  CONSTRAINT fk_Listing_Neighborhood FOREIGN KEY (Neighborhood) REFERENCES Neighborhood(Neighborhood) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 # Create Table Guest
