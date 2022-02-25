@@ -113,23 +113,20 @@ def insert_new_entry(row, table_name, cursor):
             row_index = csv_col_to_index[csv_column]
             csv_value = replace_comma_tokens(str(row[row_index]))
 
-            if len(csv_value) > 0 and csv_value[0] == "$":
+            if csv_value == "":
+                csv_value = None
+
+            if csv_value and len(csv_value) > 0 and csv_value[0] == "$":
                 csv_value = csv_value.replace("$", "").replace(",", "")
 
-            if table_column in ["Name", "Description", "NeighborhoodOverview"]:
+            if csv_value and table_column in ["Name", "Description", "NeighborhoodOverview"]:
                 csv_value = str(csv_value.encode("utf-8").decode('utf-8', 'ignore').encode("utf-8"))[2:-1]
 
-            # Address boolean to bit mapping 'f' to 0 and 't' to 1
+            # Maps 'f' to 0 and 't' to 1
             if csv_value == 'f':
                 csv_value = 0
             elif csv_value == 't':
                 csv_value = 1
-
-            if ("Nights" in table_column or table_column in ["Bathrooms", "Bedrooms"]) and not csv_value:
-                csv_value = 0
-
-            if (table_column in ["FirstReview", "LastReview"]) and not csv_value:
-                csv_value = None
 
             # map["HostUrl"] = {VALUE_IN_CSV}
             table_column_to_csv_value[table_column] = csv_value

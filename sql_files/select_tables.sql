@@ -12,10 +12,3 @@ SELECT * FROM ListingRating;
 SELECT * FROM HostRating;
 SELECT * FROM ListingAmenity;
 SELECT * FROM Amenity;
-
--- 
--- SELECT COUNT(*) FROM User;
--- SELECT COUNT(*) FROM Host;
--- SELECT COUNT(*) FROM Guest;
--- SELECT COUNT(*) FROM Review;
--- SELECT COUNT(*) FROM Neighborhood;

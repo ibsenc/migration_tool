@@ -60,13 +60,13 @@ CREATE TABLE Listing (
     HostID INT UNSIGNED,
     Neighborhood VARCHAR(255),
     Accommodates INT,
-    Bathrooms NUMERIC,
-    Bedrooms INT,
+    BathroomsText VARCHAR(255),
+    Bedrooms INT DEFAULT 0,
     Price DECIMAL(13, 2),
     HasAvailability BOOLEAN,
     NumberOfReviews INT,
-    FirstReview DATE,
-    LastReview DATE,
+    FirstReview DATE NULL,
+    LastReview DATE NULL,
     License VARCHAR(255),
     InstantBookable BOOLEAN,
     Latitude DECIMAL(10, 5),
@@ -83,8 +83,6 @@ CREATE TABLE Listing (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 ALTER TABLE Listing CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE Listing  ADD  CONSTRAINT fk_Listing_Neighborhood FOREIGN KEY (Neighborhood) REFERENCES Neighborhood(Neighborhood) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE Listing MODIFY COLUMN Name VARCHAR(255)  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
-
 
 
 # Create Table Guest
@@ -97,7 +95,6 @@ CREATE TABLE Guest (
 );
 
 # Create Table Review
-# TODO: Integrate foreign key reference with Listing table
 CREATE TABLE Review (
     ID BIGINT UNSIGNED,
     Date DATE,
@@ -168,10 +165,10 @@ CREATE TABLE Calendar(
 	ListingID INT UNSIGNED,
 	Date DATE,
 	Available BOOLEAN,
-	Price VARCHAR(255),
-	AdjustedPrice VARCHAR(255),
-	MinimumNights INT,
-	MaximumNights INT,
+	Price DECIMAL(13, 2),
+	AdjustedPrice DECIMAL(13, 2),
+	MinimumNights INT DEFAULT 0,
+	MaximumNights INT DEFAULT 0,
 	CONSTRAINT pk_Calendar_ID PRIMARY KEY(ID),
 	CONSTRAINT fk_Calendar_ListingId FOREIGN KEY(ListingID)
 		REFERENCES Listing(ID)

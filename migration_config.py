@@ -124,8 +124,8 @@ MIGRATION_CONFIG = [
                         "csv_column": "accommodates"
                     },
                     {
-                        "table_column": "Bathrooms",
-                        "csv_column": "bathrooms"
+                        "table_column": "BathroomsText",
+                        "csv_column": "bathrooms_text"
                     },
                     {
                         "table_column": "Bedrooms",
