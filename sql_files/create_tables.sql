@@ -51,7 +51,7 @@ CREATE TABLE Host (
 
 # Create Table Listing
 CREATE TABLE Listing (
-    ID INT UNSIGNED,
+    ID INT UNSIGNED AUTO_INCREMENT,
     ListingUrl TEXT,
     Name VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
     Description TEXT,
@@ -96,7 +96,7 @@ CREATE TABLE Guest (
 
 # Create Table Review
 CREATE TABLE Review (
-    ID BIGINT UNSIGNED,
+    ID BIGINT UNSIGNED AUTO_INCREMENT,
     Date DATE,
     ReviewerID INT UNSIGNED,
     Comments TEXT,
